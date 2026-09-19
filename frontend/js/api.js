@@ -4,10 +4,13 @@
  */
 
 // Dynamically determine the backend base URL
-// If frontend is served via Java server (http://localhost:8080/), origin is empty string or window.location.origin
-const API_BASE_URL = (window.location.protocol === 'file:')
-    ? 'http://localhost:8080'
-    : window.location.origin;
+// Priority:
+// 1. Explicit global override window.SMARTOP_API_BASE_URL (if configured)
+// 2. Fallback to http://localhost:8080 ONLY if running from local file:// protocol
+// 3. Otherwise (http: or https:), use window.location.origin (unified domain)
+const API_BASE_URL = (typeof window !== 'undefined' && window.SMARTOP_API_BASE_URL)
+    ? window.SMARTOP_API_BASE_URL.replace(/\/+$/, '')
+    : (window.location.protocol === 'file:' ? 'http://localhost:8080' : window.location.origin);
 
 /**
  * Centralized HTTP request helper

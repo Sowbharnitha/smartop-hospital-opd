@@ -34,7 +34,8 @@ public class SmartOPServer {
         // 2. Initialize HTTP Server
         int port = DatabaseConfig.getServerPort();
         try {
-            server = HttpServer.create(new InetSocketAddress(port), 0);
+            // Explicitly bind to 0.0.0.0 wildcard address for cloud ingress
+            server = HttpServer.create(new InetSocketAddress("0.0.0.0", port), 0);
 
             // Register API Handlers
             server.createContext("/api/auth", new AuthHandler());
@@ -51,9 +52,9 @@ public class SmartOPServer {
             server.setExecutor(Executors.newFixedThreadPool(25));
             server.start();
 
-            System.out.println("[SmartOP] Server started successfully on port " + port);
-            System.out.println("[SmartOP] Web Application: http://localhost:" + port + "/");
-            System.out.println("[SmartOP] REST API root:   http://localhost:" + port + "/api/");
+            System.out.println("[SmartOP] Server successfully running on 0.0.0.0:" + port);
+            System.out.println("[SmartOP] Web Application ready at: http://localhost:" + port + "/ (or public cloud domain)");
+            System.out.println("[SmartOP] REST API root:           http://localhost:" + port + "/api/");
             System.out.println("=======================================================");
 
             // Graceful shutdown hook

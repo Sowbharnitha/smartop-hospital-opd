@@ -1,0 +1,37 @@
+# Compiled Java class files and binaries
+backend/bin/
+*.class
+*.jar
+*.war
+*.ear
+
+# BUT preserve the essential MySQL JDBC connector
+!backend/lib/mysql-connector-j.jar
+
+# Logs and runtime artifacts
+*.log
+*.tmp
+task-*.log
+
+# Environment variables & secrets
+.env
+.env.local
+.env.*.local
+*.local.properties
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor specific files
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/

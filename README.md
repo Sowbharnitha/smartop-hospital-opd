@@ -308,3 +308,91 @@ Because external WebSocket dependencies are avoided, real-time synchronization i
 - **SMS / WhatsApp Integration**: In production, queue alerts can be delivered via SMS when the patient has 2 turns ahead.
 - **Multi-Counter Support**: Can be extended to support lab test collection, pharmacy dispensary, and billing counters.
 - **Hardware Integration**: Display screens in waiting halls can run the `/patient/queue.html` view in kiosk mode with an external token display bell.
+
+---
+
+## 13. Public Cloud Deployment Guide (One Unified Shareable HTTPS URL)
+
+SmartOP is designed with a **Unified Architecture**: the Core Java HTTP server serves both the **REST API** (`/api/*`) and the **Frontend Web Application** (`/`, `/patient/*`, `/doctor/*`, `/admin/*`) from the same port.
+
+When deployed to a cloud container, you receive **ONE single shareable public HTTPS URL** (e.g. `https://smartop-production.up.railway.app` or `https://smartop.onrender.com`).
+
+---
+
+### Option 1: Railway Deployment (Recommended – All-In-One Platform)
+
+Railway can host both the **Core Java Backend (via Dockerfile)** and the **Managed MySQL Database** on the same dashboard with automatic private networking.
+
+#### Step 1: Push your Code to GitHub
+Run these commands from your local `smartop` folder:
+```bash
+git add .
+git commit -m "Prepare SmartOP for cloud deployment with Docker and env config"
+git push origin main
+```
+
+#### Step 2: Create a New Project on Railway
+1. Go to [railway.com](https://railway.com) and log in with your GitHub account.
+2. Click **New Project** → **Provision MySQL**.
+   - Railway immediately provisions an active Cloud MySQL database.
+3. Click on the MySQL card in Railway, go to the **Variables** tab to view your credentials (`MYSQLHOST`, `MYSQLPORT`, `MYSQLUSER`, `MYSQLPASSWORD`, `MYSQLDATABASE`).
+
+#### Step 3: Import `database.sql` into Railway MySQL
+1. In the Railway MySQL card, click on the **Connect** tab to view the public connection command.
+2. Run this command in your local terminal to import all tables and sample data into Railway:
+   ```bash
+   mysql -h <MYSQLHOST> -u <MYSQLUSER> -p<MYSQLPASSWORD> -P <MYSQLPORT> <MYSQLDATABASE> < database.sql
+   ```
+   *(Or connect via MySQL Workbench / DBeaver using the Railway host, port, user, and password, then paste and execute `database.sql`).*
+
+#### Step 4: Deploy the SmartOP Java Application
+1. In the same Railway project, click **+ New Service** → **GitHub Repo**.
+2. Select your `smartop-hospital-opd` repository.
+3. Railway automatically detects the `Dockerfile`, compiles the Core Java code, and packages the frontend.
+4. Go to the newly created service → **Variables** tab → click **Add Reference Variable**:
+   - Reference `DATABASE_URL` from your MySQL service.
+   *(Or add individual variables: `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` referencing the MySQL service).*
+5. Go to the **Settings** tab → under **Networking**, click **Generate Domain**.
+6. Railway generates your public HTTPS URL (e.g. `https://smartop-production.up.railway.app`).
+
+**That's it!** Anyone can open this single URL on their phone or laptop, register as a patient, book an appointment, view their queue token, and doctors can manage consultations live online.
+
+---
+
+### Option 2: Render + Aiven for MySQL (100% Free Forever)
+
+Render provides a free containerized Web Service, and Aiven provides a permanently free managed MySQL database without requiring a credit card.
+
+#### Step 1: Create Free Cloud MySQL on Aiven
+1. Sign up at [aiven.io](https://aiven.io).
+2. Click **Create Service** → select **MySQL** → choose the **Free Plan**.
+3. Once active, copy the **Host**, **Port**, **User**, **Password**, and **Database Name** (`defaultdb`).
+4. Connect using MySQL Workbench or command line and run `database.sql`.
+
+#### Step 2: Deploy on Render
+1. Sign up at [render.com](https://render.com).
+2. Click **New +** → **Web Service**.
+3. Connect your GitHub repository `smartop-hospital-opd`.
+4. Choose **Docker** as the runtime environment.
+5. In the **Environment Variables** section, add:
+   - `DB_HOST`: `<Your Aiven Host>`
+   - `DB_PORT`: `<Your Aiven Port>`
+   - `DB_NAME`: `defaultdb`
+   - `DB_USER`: `avnadmin`
+   - `DB_PASSWORD`: `<Your Aiven Password>`
+6. Click **Create Web Service**.
+7. Render builds the Docker image and gives you your public HTTPS URL:
+   `https://smartop.onrender.com`
+
+---
+
+### How to Update the Live Application After Future GitHub Commits
+Both Railway and Render feature **Continuous Deployment**:
+Whenever you make changes to Java, HTML, CSS, or JavaScript:
+```bash
+git add .
+git commit -m "Add new hospital feature"
+git push origin main
+```
+The cloud platform automatically rebuilds the Docker container and updates your live URL in under 2 minutes with zero downtime.
+

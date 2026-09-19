@@ -18,14 +18,22 @@ public class StaticFileHandler implements HttpHandler {
 
     public StaticFileHandler() {
         // Resolve frontend directory path
-        String[] candidates = { "frontend", "../frontend", "smartop/frontend" };
-        String found = "frontend";
-        for (String c : candidates) {
-            File f = new File(c);
-            if (f.exists() && f.isDirectory()) {
-                found = c;
-                break;
+        String envFrontend = System.getenv("FRONTEND_DIR");
+        String found = null;
+        if (envFrontend != null && new File(envFrontend).isDirectory()) {
+            found = envFrontend;
+        } else {
+            String[] candidates = { "frontend", "../frontend", "/app/frontend", "smartop/frontend" };
+            for (String c : candidates) {
+                File f = new File(c);
+                if (f.exists() && f.isDirectory()) {
+                    found = c;
+                    break;
+                }
             }
+        }
+        if (found == null) {
+            found = "frontend";
         }
         this.frontendRoot = found;
         System.out.println("[StaticFileHandler] Serving frontend from: " + new File(frontendRoot).getAbsolutePath());

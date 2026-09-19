@@ -1,12 +1,19 @@
 -- =======================================================
 -- SmartOP: Hospital OPD Queue Management System
 -- Database Schema & Sample Data Script
--- Database: smartop_db
+-- Compatible with Local MySQL & Cloud MySQL (Railway, Aiven, TiDB, Render)
 -- =======================================================
 
-DROP DATABASE IF EXISTS smartop_db;
-CREATE DATABASE smartop_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE smartop_db;
+-- Create database if running on local server (safe on cloud if permissions exist)
+CREATE DATABASE IF NOT EXISTS smartop_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Safely drop existing tables in reverse dependency order before recreating
+DROP TABLE IF EXISTS queue;
+DROP TABLE IF EXISTS appointments;
+DROP TABLE IF EXISTS patients;
+DROP TABLE IF EXISTS doctors;
+DROP TABLE IF EXISTS departments;
+DROP TABLE IF EXISTS users;
 
 -- -------------------------------------------------------
 -- Table: users
