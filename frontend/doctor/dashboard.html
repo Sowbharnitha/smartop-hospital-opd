@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard – SmartOP OPD System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+        <div class="sidebar-header">
+            <a href="/index.html" class="brand-logo">
+                <div class="brand-icon">✚</div>
+                <span>SmartOP</span>
+            </a>
+        </div>
+
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item active">
+                <a href="/doctor/dashboard.html"><span class="nav-icon">🩺</span> Clinical Queue</a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="user-profile-summary">
+                <div class="user-avatar" style="background: var(--teal-100); color: var(--teal-800);">D</div>
+                <div class="user-info">
+                    <h4 class="user-display-name">Dr. Arun Kumar</h4>
+                    <span class="user-display-email">doctor@smartop.com</span>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-sm" style="width: 100%; margin-top: 0.75rem;" onclick="logoutUser()">
+                Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main">
+        <header class="top-header">
+            <div class="header-title-group">
+                <h1>Physician Consultation Console</h1>
+                <p><span class="user-display-name" style="font-weight: 700; color: var(--teal-800);">Doctor</span> • <span id="doctor-today-date">Today</span></p>
+            </div>
+            <div class="header-actions">
+                <div class="sync-indicator">
+                    <span class="sync-dot"></span> Live Queue Sync (5s)
+                </div>
+                <button id="btn-call-next" class="btn btn-primary">
+                    📢 Call Next Patient
+                </button>
+            </div>
+        </header>
+
+        <div class="content-container">
+
+            <!-- Doctor KPI Metrics Row -->
+            <div class="stats-row">
+                <div class="stat-card stat-teal">
+                    <div class="stat-content">
+                        <span>Total Appointments</span>
+                        <h3 id="doc-stat-total">0</h3>
+                    </div>
+                    <div class="stat-icon">📋</div>
+                </div>
+
+                <div class="stat-card stat-amber">
+                    <div class="stat-content">
+                        <span>Waiting in Lounge</span>
+                        <h3 id="doc-stat-waiting">0</h3>
+                    </div>
+                    <div class="stat-icon">⏳</div>
+                </div>
+
+                <div class="stat-card stat-emerald">
+                    <div class="stat-content">
+                        <span>Completed Consultations</span>
+                        <h3 id="doc-stat-completed">0</h3>
+                    </div>
+                    <div class="stat-icon">✅</div>
+                </div>
+            </div>
+
+            <!-- Active Consultation Station Card -->
+            <div class="card" style="border-left: 5px solid var(--teal-600); box-shadow: var(--shadow-md);">
+                <div class="card-header">
+                    <h3>Current Consultation Station</h3>
+                    <span class="badge badge-active">Active Room</span>
+                </div>
+                <div class="card-body" id="current-patient-station">
+                    <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                        Loading active patient station...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Today's OPD Patient Queue Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Today's Patient Queue (Chronological Order)</h3>
+                    <button class="btn btn-sm btn-outline" onclick="initDoctorDashboard()">
+                        🔄 Refresh Queue
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th>Token Number</th>
+                                <th>Patient Name</th>
+                                <th>Scheduled Time</th>
+                                <th>Queue Status</th>
+                                <th>Clinical Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="doctor-queue-tbody">
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                                    Loading patient queue...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/doctor.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initDoctorDashboard();
+        });
+    </script>
+</body>
+</html>

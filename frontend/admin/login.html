@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login – SmartOP OPD System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body class="auth-page">
+
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-header">
+                <a href="/index.html" class="brand-logo">
+                    <div class="brand-icon">✚</div>
+                    <span>SmartOP</span>
+                </a>
+                <h1>Hospital Administration</h1>
+                <p>Sign in to manage clinical departments, doctors, and live queues</p>
+                <span class="auth-role-pill role-pill-admin">Administrator Access</span>
+            </div>
+
+            <!-- Demo Autofill Bar -->
+            <div class="demo-creds-strip">
+                <div class="demo-creds-info">
+                    <span>Demo Administrator:</span>
+                    <strong>admin@smartop.com</strong>
+                </div>
+                <button type="button" class="btn-fill-demo" id="btn-autofill-admin">
+                    Fill Demo
+                </button>
+            </div>
+
+            <div id="admin-error-box" class="alert alert-error" style="display: none;"></div>
+
+            <form id="admin-login-form">
+                <div class="form-group">
+                    <label class="form-label" for="admin-email">Administrator Email</label>
+                    <input type="email" id="admin-email" class="form-control" placeholder="admin@smartop.com" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="admin-password">Password</label>
+                    <input type="password" id="admin-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;" id="btn-admin-submit">
+                    Sign In to Admin Console
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <a href="/index.html">← Back to SmartOP Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        document.getElementById('btn-autofill-admin').addEventListener('click', () => {
+            document.getElementById('admin-email').value = 'admin@smartop.com';
+            document.getElementById('admin-password').value = 'admin123';
+        });
+
+        document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const errBox = document.getElementById('admin-error-box');
+            errBox.style.display = 'none';
+
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+            const btn = document.getElementById('btn-admin-submit');
+
+            btn.disabled = true;
+            btn.textContent = 'Verifying Admin Credentials...';
+
+            try {
+                await loginUser(email, password, 'ADMIN');
+                showToast("Administrator authenticated! Loading console...", "success");
+                window.location.href = '/admin/dashboard.html';
+            } catch (err) {
+                errBox.textContent = err.message;
+                errBox.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Sign In to Admin Console';
+            }
+        });
+    </script>
+</body>
+</html>

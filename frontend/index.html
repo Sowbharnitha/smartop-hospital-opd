@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartOP – Hospital Outpatient Queue Management System</title>
+    <meta name="description" content="Digitize hospital outpatient department appointments and real-time queue tracking for patients, doctors, and hospital administrators.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="smart-navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="brand-logo" id="brand-home-link">
+                <div class="brand-icon">✚</div>
+                <span>SmartOP</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#roles">Portals</a></li>
+                <li><a href="#benefits">Benefits</a></li>
+            </ul>
+
+            <div class="nav-cta-group">
+                <a href="/patient/login.html" class="btn btn-outline" id="nav-login-btn">Patient Login</a>
+                <a href="/patient/register.html" class="btn btn-primary" id="nav-book-btn">Book OPD Appointment</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-tag">
+                    <span class="sync-dot"></span>
+                    <span>Live Outpatient Department Sync</span>
+                </div>
+                <h1 class="hero-title">
+                    Eliminate OPD Waiting Chaos with <span>Smart Queueing</span>
+                </h1>
+                <p class="hero-desc">
+                    Patients monitor their real-time queue token, estimated turn, and doctor consultation state anywhere from their smartphone. Doctors manage clinical flow seamlessly.
+                </p>
+                <div class="hero-actions">
+                    <a href="/patient/register.html" class="btn btn-primary btn-lg" id="hero-get-started-btn">
+                        Book Appointment & Get Token
+                    </a>
+                    <a href="#roles" class="btn btn-outline btn-lg" id="hero-view-portals-btn">
+                        Explore User Roles
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <h4 id="hero-stat-depts">7</h4>
+                        <p>Specialty Clinics</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4 id="hero-stat-doctors">5+</h4>
+                        <p>Specialist Doctors</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4 id="hero-stat-sync">5s</h4>
+                        <p>Real-Time Polling</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Live OPD Queue Ticket Preview Card -->
+            <div class="hero-card">
+                <div class="hero-card-header">
+                    <div>
+                        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--primary-900);">Live OPD Token Tracker</h3>
+                        <p style="font-size: 0.825rem; color: var(--text-muted);">Real-time status simulation</p>
+                    </div>
+                    <div class="sync-indicator">
+                        <span class="sync-dot"></span> Live Sync
+                    </div>
+                </div>
+
+                <div class="queue-preview-ticket">
+                    <div class="ticket-dept">Cardiology OPD • Dr. Arun Kumar</div>
+                    <div class="ticket-number" id="preview-ticket-number">A-004</div>
+                    <div class="ticket-status" id="preview-ticket-status">WAITING FOR CALL</div>
+                </div>
+
+                <div class="hero-card-stats">
+                    <div class="mini-stat">
+                        <span>Current Position</span>
+                        <strong id="preview-current-pos">Position #4</strong>
+                    </div>
+                    <div class="mini-stat">
+                        <span>Patients Ahead</span>
+                        <strong id="preview-ahead-count" style="color: var(--teal-700);">1 Ahead</strong>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.25rem; text-align: center;">
+                    <a href="/patient/login.html" style="font-size: 0.875rem; font-weight: 700; color: var(--teal-700);">
+                        Log in to view your live token position →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section-wrapper" id="how-it-works">
+        <div class="section-header">
+            <span class="section-tag">Smooth Healthcare Flow</span>
+            <h2 class="section-title">How SmartOP Transforms the OPD Experience</h2>
+            <p class="section-subtitle">A synchronized, 4-step outpatient workflow connecting patients, doctors, and medical staff.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">1</div>
+                <h3>1. Online Appointment</h3>
+                <p>Patient selects department, specialist doctor, date, and preferred consultation slot. System validates doctor availability.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">2</div>
+                <h3>2. Queue Token Generated</h3>
+                <p>A deterministic, doctor-specific token (e.g. <code>A-004</code>) is calculated automatically from active database records.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">3</div>
+                <h3>3. Live Turn Tracking</h3>
+                <p>Near-real-time 5-second polling updates queue position, showing patients ahead and consultation announcements.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">4</div>
+                <h3>4. Doctor Consultation</h3>
+                <p>The physician calls the next patient with one click, starts the session, and updates the electronic status upon completion.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Role Portals Section -->
+    <section class="section-wrapper" id="roles" style="background: #ffffff; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+        <div class="section-header">
+            <span class="section-tag">Role-Based Portals</span>
+            <h2 class="section-title">Designed for Patients, Doctors, and Administrators</h2>
+            <p class="section-subtitle">Dedicated portals with specialized controls, real-time metrics, and clean interfaces.</p>
+        </div>
+
+        <div class="roles-grid">
+            <!-- Patient Portal Card -->
+            <div class="role-card role-patient">
+                <div class="role-card-badge">👤</div>
+                <h3>Patient Portal</h3>
+                <p>Register, book OPD appointments, view today's doctor consultation, track live token position, and monitor patients ahead.</p>
+                <div class="role-creds">
+                    <strong>Demo:</strong> patient@smartop.com<br>
+                    <strong>Password:</strong> patient123
+                </div>
+                <div style="display: flex; gap: 0.5rem; width: 100%;">
+                    <a href="/patient/login.html" class="btn btn-outline" style="flex:1;">Login</a>
+                    <a href="/patient/register.html" class="btn btn-primary" style="flex:1;">Register</a>
+                </div>
+            </div>
+
+            <!-- Doctor Portal Card -->
+            <div class="role-card role-doctor">
+                <div class="role-card-badge">🩺</div>
+                <h3>Doctor Portal</h3>
+                <p>Manage daily clinical queues, view booked patients, call next waiting patient, start examination, and complete consultations.</p>
+                <div class="role-creds">
+                    <strong>Demo:</strong> doctor@smartop.com<br>
+                    <strong>Password:</strong> doctor123
+                </div>
+                <a href="/doctor/login.html" class="btn btn-primary" style="width: 100%;">Access Doctor Portal</a>
+            </div>
+
+            <!-- Admin Portal Card -->
+            <div class="role-card role-admin">
+                <div class="role-card-badge">⚙</div>
+                <h3>Hospital Admin</h3>
+                <p>Comprehensive dashboard metrics, manage doctors, add clinical departments, and monitor live OPD queues across all rooms.</p>
+                <div class="role-creds">
+                    <strong>Demo:</strong> admin@smartop.com<br>
+                    <strong>Password:</strong> admin123
+                </div>
+                <a href="/admin/login.html" class="btn btn-secondary" style="width: 100%;">Access Admin Portal</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section-wrapper" id="features">
+        <div class="section-header">
+            <span class="section-tag">System Capabilities</span>
+            <h2 class="section-title">Built with Core Engineering Excellence</h2>
+            <p class="section-subtitle">A high-performance architecture constructed with Core Java, JDBC, MySQL, and Vanilla Web Standards.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🛡</div>
+                <h3>Zero Frameworks</h3>
+                <p>Constructed strictly using HTML5, CSS3, Vanilla JS on the frontend and Core Java with JDBC on the backend. No bulky third-party bloat.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Real-Time Polling Engine</h3>
+                <p>5-second polling synchronization keeps patient queues and physician dashboards updated with near-real-time precision.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔢</div>
+                <h3>Deterministic Queue Numbers</h3>
+                <p>Robust database logic generates sequential doctor-specific tokens (e.g. <code>A-001</code>, <code>A-002</code>), avoiding race conditions.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <h3>Salted Cryptography</h3>
+                <p>Passwords stored as SHA-256 salted hashes. SQL injection prevented using JDBC PreparedStatements throughout the data layer.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="section-wrapper" id="benefits" style="background: var(--teal-50); border-radius: var(--radius-xl); margin-bottom: 4rem;">
+        <div class="section-header" style="margin-bottom: 2.5rem;">
+            <span class="section-tag">Clinical Advantages</span>
+            <h2 class="section-title">Transforming Healthcare Logistics</h2>
+        </div>
+
+        <div class="features-grid">
+            <div style="background: #ffffff; padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--teal-100);">
+                <h3 style="color: var(--teal-800); font-weight: 800; font-size: 1.2rem; margin-bottom: 0.5rem;">For Patients</h3>
+                <ul style="list-style-type: '✓ '; padding-left: 1.2rem; color: var(--text-muted); line-height: 1.8;">
+                    <li>No waiting in crowded waiting rooms</li>
+                    <li>Transparent position in OPD line</li>
+                    <li>Doctor start and consultation notifications</li>
+                    <li>Simple self-service booking flow</li>
+                </ul>
+            </div>
+
+            <div style="background: #ffffff; padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--teal-100);">
+                <h3 style="color: var(--teal-800); font-weight: 800; font-size: 1.2rem; margin-bottom: 0.5rem;">For Doctors</h3>
+                <ul style="list-style-type: '✓ '; padding-left: 1.2rem; color: var(--text-muted); line-height: 1.8;">
+                    <li>Organized patient queue at a glance</li>
+                    <li>One-click patient summoning</li>
+                    <li>Accurate daily consultation metrics</li>
+                    <li>Smooth handling of patient skips</li>
+                </ul>
+            </div>
+
+            <div style="background: #ffffff; padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--teal-100);">
+                <h3 style="color: var(--teal-800); font-weight: 800; font-size: 1.2rem; margin-bottom: 0.5rem;">For Hospital Admin</h3>
+                <ul style="list-style-type: '✓ '; padding-left: 1.2rem; color: var(--text-muted); line-height: 1.8;">
+                    <li>Cross-department live OPD monitoring</li>
+                    <li>Easy doctor and department management</li>
+                    <li>Accurate patient visit counts & analytics</li>
+                    <li>Reduced bottleneck & staff stress</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="smart-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>SmartOP</h3>
+                <p style="margin-bottom: 1rem; line-height: 1.6;">
+                    Smart Hospital Outpatient Department Queue Management System. Connecting patients with clinical care through real-time queue intelligence.
+                </p>
+                <div style="font-size: 0.85rem; color: #64748b;">
+                    Built with HTML5 • CSS3 • Vanilla JavaScript • Core Java • JDBC • MySQL
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Portals</h4>
+                <ul>
+                    <li><a href="/patient/login.html">Patient Login</a></li>
+                    <li><a href="/patient/register.html">Patient Registration</a></li>
+                    <li><a href="/doctor/login.html">Doctor Portal</a></li>
+                    <li><a href="/admin/login.html">Administrator Portal</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Clinical Services</h4>
+                <ul>
+                    <li><a href="#features">Cardiology</a></li>
+                    <li><a href="#features">Pediatrics</a></li>
+                    <li><a href="#features">General Medicine</a></li>
+                    <li><a href="#features">Orthopedics</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>System Architecture</h4>
+                <ul>
+                    <li><a href="/api/departments">REST API: Departments</a></li>
+                    <li><a href="/api/doctors">REST API: Doctors</a></li>
+                    <li><a href="/api/admin/statistics">REST API: Metrics</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>© 2026 SmartOP Queue Management System. All rights reserved.</div>
+            <div>Zero-Framework Architecture Demonstration</div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        // Check if user is already logged in to display personalized CTA in navbar
+        const session = getStoredSession();
+        if (session) {
+            const loginBtn = document.getElementById('nav-login-btn');
+            if (loginBtn) {
+                const targetUrl = session.role === 'PATIENT' ? '/patient/dashboard.html'
+                                : session.role === 'DOCTOR' ? '/doctor/dashboard.html'
+                                : '/admin/dashboard.html';
+                loginBtn.textContent = 'Go to ' + session.role + ' Dashboard';
+                loginBtn.href = targetUrl;
+            }
+        }
+    </script>
+</body>
+</html>

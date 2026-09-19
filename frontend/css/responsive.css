@@ -1,0 +1,79 @@
+/* =======================================================
+   SmartOP Responsive Media Queries
+   Pure Vanilla CSS
+   ======================================================= */
+
+@media (max-width: 1024px) {
+    .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2.5rem;
+    }
+
+    .hero-desc {
+        margin: 0 auto 2rem;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .hero-stats {
+        justify-content: center;
+    }
+
+    .roles-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .queue-board-banner {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .appt-details-pill-grid {
+        justify-content: center;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-sidebar {
+        position: fixed;
+        left: -260px;
+        box-shadow: var(--shadow-xl);
+    }
+
+    .app-sidebar.open {
+        left: 0;
+    }
+
+    .hero-title {
+        font-size: 2.35rem;
+    }
+
+    .top-header {
+        padding: 1rem 1.25rem;
+    }
+
+    .content-container {
+        padding: 1.25rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-links {
+        display: none;
+    }
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Registration – SmartOP OPD System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body class="auth-page">
+
+    <div class="auth-wrapper wide">
+        <div class="auth-card">
+            <div class="auth-header">
+                <a href="/index.html" class="brand-logo">
+                    <div class="brand-icon">✚</div>
+                    <span>SmartOP</span>
+                </a>
+                <h1>Create Patient Account</h1>
+                <p>Register for seamless Outpatient Department appointments & queue tracking</p>
+                <span class="auth-role-pill role-pill-patient">New Patient Registration</span>
+            </div>
+
+            <div id="reg-error-box" class="alert alert-error" style="display: none;"></div>
+
+            <form id="patient-register-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="reg-name">Full Name *</label>
+                        <input type="text" id="reg-name" class="form-control" placeholder="e.g. Sowbharnitha R" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="reg-dob">Date of Birth *</label>
+                        <input type="date" id="reg-dob" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="reg-gender">Gender *</label>
+                        <select id="reg-gender" class="form-control" required>
+                            <option value="">-- Select Gender --</option>
+                            <option value="FEMALE">Female</option>
+                            <option value="MALE">Male</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="reg-phone">Phone Number (10 Digits) *</label>
+                        <input type="tel" id="reg-phone" class="form-control" placeholder="9876543210" pattern="[0-9]{10}" maxlength="10" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="reg-email">Email Address *</label>
+                        <input type="email" id="reg-email" class="form-control" placeholder="patient@example.com" required autocomplete="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="reg-password">Password (Min 6 chars) *</label>
+                        <input type="password" id="reg-password" class="form-control" placeholder="••••••••" minlength="6" required autocomplete="new-password">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="reg-address">Residential Address</label>
+                    <textarea id="reg-address" class="form-control" placeholder="Door No, Street Name, City, Pincode" rows="2"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 0.5rem;" id="btn-reg-submit">
+                    Complete Registration & Open Dashboard
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                Already have an account? <a href="/patient/login.html" style="font-weight: 700;">Sign in here</a>
+                <div style="margin-top: 0.75rem;">
+                    <a href="/index.html">← Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        document.getElementById('patient-register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const errBox = document.getElementById('reg-error-box');
+            errBox.style.display = 'none';
+
+            const payload = {
+                name: document.getElementById('reg-name').value.trim(),
+                dateOfBirth: document.getElementById('reg-dob').value,
+                gender: document.getElementById('reg-gender').value,
+                phone: document.getElementById('reg-phone').value.trim(),
+                email: document.getElementById('reg-email').value.trim(),
+                password: document.getElementById('reg-password').value,
+                address: document.getElementById('reg-address').value.trim()
+            };
+
+            if (payload.phone.length !== 10 || !/^\d+$/.test(payload.phone)) {
+                errBox.textContent = "Phone number must be exactly 10 numeric digits.";
+                errBox.style.display = 'block';
+                return;
+            }
+
+            const btn = document.getElementById('btn-reg-submit');
+            btn.disabled = true;
+            btn.textContent = 'Registering Account...';
+
+            try {
+                await registerPatient(payload);
+                showToast("Account created successfully! Loading your dashboard...", "success");
+                window.location.href = '/patient/dashboard.html';
+            } catch (err) {
+                errBox.textContent = err.message;
+                errBox.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Complete Registration & Open Dashboard';
+            }
+        });
+    </script>
+</body>
+</html>

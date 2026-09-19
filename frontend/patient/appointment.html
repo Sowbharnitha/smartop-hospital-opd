@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book OPD Appointment – SmartOP System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+        <div class="sidebar-header">
+            <a href="/index.html" class="brand-logo">
+                <div class="brand-icon">✚</div>
+                <span>SmartOP</span>
+            </a>
+        </div>
+
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item">
+                <a href="/patient/dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+            </li>
+            <li class="sidebar-nav-item active">
+                <a href="/patient/appointment.html"><span class="nav-icon">📅</span> Book Appointment</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="/patient/queue.html"><span class="nav-icon">⏱</span> Live OPD Tracker</a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="user-profile-summary">
+                <div class="user-avatar">P</div>
+                <div class="user-info">
+                    <h4 class="user-display-name">Patient</h4>
+                    <span class="user-display-email">patient@smartop.com</span>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-sm" style="width: 100%; margin-top: 0.75rem;" onclick="logoutUser()">
+                Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main">
+        <header class="top-header">
+            <div class="header-title-group">
+                <h1>Book Outpatient Appointment</h1>
+                <p>Choose clinical specialty, physician, date, and reserve your OPD queue token</p>
+            </div>
+            <div class="header-actions">
+                <a href="/patient/dashboard.html" class="btn btn-outline btn-sm">
+                    ← Back to Dashboard
+                </a>
+            </div>
+        </header>
+
+        <div class="content-container">
+
+            <div class="card" style="max-width: 760px; margin: 0 auto;">
+                <div class="card-header">
+                    <h3>OPD Registration & Token Generation Form</h3>
+                </div>
+                <div class="card-body">
+                    <form id="booking-form">
+                        <div class="form-group">
+                            <label class="form-label" for="dept-select">1. Clinical Department *</label>
+                            <select id="dept-select" class="form-control" required>
+                                <option value="">Loading clinical departments...</option>
+                            </select>
+                            <div class="form-help">Select the department to view available specialist physicians.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="doctor-select">2. Consulting Physician / Doctor *</label>
+                            <select id="doctor-select" class="form-control" disabled required>
+                                <option value="">-- Select department first --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="appt-date">3. Appointment Date *</label>
+                                <input type="date" id="appt-date" class="form-control" required>
+                                <div class="form-help">Same-day and advance OPD appointments supported.</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="appt-time">4. Time Slot *</label>
+                                <select id="appt-time" class="form-control" required>
+                                    <option value="09:00:00">09:00 AM</option>
+                                    <option value="09:30:00">09:30 AM</option>
+                                    <option value="10:00:00" selected>10:00 AM</option>
+                                    <option value="10:30:00">10:30 AM</option>
+                                    <option value="11:00:00">11:00 AM</option>
+                                    <option value="11:30:00">11:30 AM</option>
+                                    <option value="12:00:00">12:00 PM</option>
+                                    <option value="02:00:00">02:00 PM</option>
+                                    <option value="02:30:00">02:30 PM</option>
+                                    <option value="03:00:00">03:00 PM</option>
+                                    <option value="03:30:00">03:30 PM</option>
+                                    <option value="04:00:00">04:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="background: var(--teal-50); border: 1px solid var(--teal-100); border-radius: var(--radius-md); padding: 1rem; margin: 1.5rem 0; font-size: 0.85rem; color: var(--teal-900);">
+                            <strong>ℹ Queue Token Notice:</strong> Upon booking, your deterministic queue number (e.g. <code>A-004</code>) will be generated by the Core Java backend based on today's active schedule for the chosen physician.
+                        </div>
+
+                        <button type="submit" id="btn-book-submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                            Confirm & Generate Queue Number
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Success Modal with Generated Queue Number -->
+    <div id="booking-success-modal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--teal-700), var(--teal-800)); color: white;">
+                <h3 style="color: white;">Appointment Confirmed!</h3>
+            </div>
+            <div class="modal-body" style="text-align: center; padding: 2rem;">
+                <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem;">
+                    Your Assigned Outpatient Token
+                </div>
+                <div id="modal-queue-number" style="font-size: 4rem; font-weight: 900; color: var(--teal-700); letter-spacing: 2px; line-height: 1; margin-bottom: 1.5rem;">
+                    A-001
+                </div>
+
+                <div style="background: var(--bg-muted); border-radius: var(--radius-md); padding: 1rem; text-align: left; font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    <div style="margin-bottom: 0.35rem;"><strong>Doctor:</strong> <span id="modal-doctor-name">--</span></div>
+                    <div style="margin-bottom: 0.35rem;"><strong>Department:</strong> <span id="modal-dept-name">--</span></div>
+                    <div style="margin-bottom: 0.35rem;"><strong>Date & Time:</strong> <span id="modal-appt-date">--</span> at <span id="modal-appt-time">--</span></div>
+                    <div><strong>Patients Ahead:</strong> <span id="modal-ahead-count" style="color: var(--teal-700); font-weight: 700;">0</span> in queue</div>
+                </div>
+
+                <a href="/patient/dashboard.html" class="btn btn-primary btn-lg" style="width: 100%;">
+                    View on Patient Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/patient.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initBookingPage();
+        });
+    </script>
+</body>
+</html>

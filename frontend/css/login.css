@@ -1,0 +1,164 @@
+/* =======================================================
+   SmartOP Authentication Pages (Login & Registration)
+   Pure Vanilla CSS
+   ======================================================= */
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 10% 20%, rgba(204, 251, 241, 0.4) 0%, rgba(241, 245, 249, 1) 90%);
+    padding: 2rem 1.5rem;
+}
+
+.auth-wrapper {
+    width: 100%;
+    max-width: 480px;
+}
+
+.auth-wrapper.wide {
+    max-width: 640px;
+}
+
+.auth-card {
+    background: #ffffff;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-xl);
+    padding: 2.5rem;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-header .brand-logo {
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+.auth-header h1 {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--primary-900);
+    margin-bottom: 0.35rem;
+}
+
+.auth-header p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.auth-role-pill {
+    display: inline-block;
+    padding: 0.25rem 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-full);
+    margin-top: 0.5rem;
+}
+
+.role-pill-patient { background: #e0f2fe; color: #0369a1; }
+.role-pill-doctor { background: #ccfbf1; color: #0f766e; }
+.role-pill-admin { background: #f3e8ff; color: #7e22ce; }
+
+/* Form Controls */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--primary-700);
+    margin-bottom: 0.4rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--primary-900);
+    background-color: #ffffff;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: var(--teal-600);
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-help {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+}
+
+/* Demo Credentials Quick-Fill Strip */
+.demo-creds-strip {
+    background: var(--bg-muted);
+    border: 1px dashed var(--border-hover);
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+
+.demo-creds-info span {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.demo-creds-info strong {
+    color: var(--primary-900);
+}
+
+.btn-fill-demo {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--teal-700);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-fill-demo:hover {
+    background: var(--teal-50);
+    border-color: var(--teal-600);
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Login – SmartOP OPD System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body class="auth-page">
+
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-header">
+                <a href="/index.html" class="brand-logo">
+                    <div class="brand-icon">✚</div>
+                    <span>SmartOP</span>
+                </a>
+                <h1>Patient Portal</h1>
+                <p>Sign in to view your live queue position and appointments</p>
+                <span class="auth-role-pill role-pill-patient">Patient Access</span>
+            </div>
+
+            <!-- Demo Autofill Bar -->
+            <div class="demo-creds-strip">
+                <div class="demo-creds-info">
+                    <span>Demo Patient Account:</span>
+                    <strong>patient@smartop.com</strong>
+                </div>
+                <button type="button" class="btn-fill-demo" id="btn-autofill-patient">
+                    Fill Demo
+                </button>
+            </div>
+
+            <div id="error-box" class="alert alert-error" style="display: none;"></div>
+
+            <form id="patient-login-form">
+                <div class="form-group">
+                    <label class="form-label" for="login-email">Email Address</label>
+                    <input type="email" id="login-email" class="form-control" placeholder="name@example.com" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" id="btn-login-submit">
+                    Sign In as Patient
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                Don't have an account yet? <a href="/patient/register.html" style="font-weight: 700;">Register as Patient</a>
+                <div style="margin-top: 0.75rem;">
+                    <a href="/index.html">← Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        document.getElementById('btn-autofill-patient').addEventListener('click', () => {
+            document.getElementById('login-email').value = 'patient@smartop.com';
+            document.getElementById('login-password').value = 'patient123';
+        });
+
+        document.getElementById('patient-login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const errBox = document.getElementById('error-box');
+            errBox.style.display = 'none';
+
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const btn = document.getElementById('btn-login-submit');
+
+            btn.disabled = true;
+            btn.textContent = 'Authenticating...';
+
+            try {
+                await loginUser(email, password, 'PATIENT');
+                showToast("Login successful! Redirecting...", "success");
+                window.location.href = '/patient/dashboard.html';
+            } catch (err) {
+                errBox.textContent = err.message;
+                errBox.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Sign In as Patient';
+            }
+        });
+    </script>
+</body>
+</html>

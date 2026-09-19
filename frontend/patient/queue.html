@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live OPD Queue Tracker – SmartOP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+        <div class="sidebar-header">
+            <a href="/index.html" class="brand-logo">
+                <div class="brand-icon">✚</div>
+                <span>SmartOP</span>
+            </a>
+        </div>
+
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item">
+                <a href="/patient/dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="/patient/appointment.html"><span class="nav-icon">📅</span> Book Appointment</a>
+            </li>
+            <li class="sidebar-nav-item active">
+                <a href="/patient/queue.html"><span class="nav-icon">⏱</span> Live OPD Tracker</a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="user-profile-summary">
+                <div class="user-avatar">P</div>
+                <div class="user-info">
+                    <h4 class="user-display-name">Patient</h4>
+                    <span class="user-display-email">patient@smartop.com</span>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-sm" style="width: 100%; margin-top: 0.75rem;" onclick="logoutUser()">
+                Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app-main">
+        <header class="top-header">
+            <div class="header-title-group">
+                <h1>Live OPD Queue Monitor</h1>
+                <p>Real-time updates via 5-second polling synchronization</p>
+            </div>
+            <div class="header-actions">
+                <div class="sync-indicator">
+                    <span class="sync-dot"></span> Polling Active (5s)
+                </div>
+                <a href="/patient/dashboard.html" class="btn btn-outline btn-sm">
+                    My Dashboard
+                </a>
+            </div>
+        </header>
+
+        <div class="content-container">
+
+            <div id="patient-active-queue-banner" class="queue-board-banner" style="display: none; margin-bottom: 2rem;">
+                <div class="banner-welcome">
+                    <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.85; margin-bottom: 0.25rem;">
+                        Your Active Ticket
+                    </div>
+                    <h2>Doctor: <span id="ticket-doctor">--</span></h2>
+                    <p>Department: <strong id="ticket-department">--</strong></p>
+
+                    <div class="appt-details-pill-grid">
+                        <div class="info-pill">
+                            <span>🕒 Slot:</span>
+                            <strong id="ticket-time">--</strong>
+                        </div>
+                        <div class="info-pill">
+                            <span>Status:</span>
+                            <span id="ticket-status" class="badge badge-waiting">WAITING</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="banner-queue-focus">
+                    <div class="focus-label">Token Number</div>
+                    <div class="focus-number" id="ticket-queue-number">--</div>
+
+                    <div class="queue-metrics-duo">
+                        <div class="metric-item">
+                            <span>Queue Position</span>
+                            <strong>#<span id="ticket-queue-position">--</span></strong>
+                        </div>
+                        <div class="metric-item">
+                            <span>Patients Ahead</span>
+                            <strong><span id="ticket-patients-ahead">--</span> ahead</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Hospital Outpatient Waiting Area Display</h3>
+                    <span class="badge badge-active">Live Polling</span>
+                </div>
+                <div class="card-body">
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+                        This monitor updates automatically every 5 seconds. When your token status transitions to <strong>CALLED</strong> or <strong>IN CONSULTATION</strong>, proceed immediately to the doctor's consultation room.
+                    </p>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; text-align: center;">
+                        <div style="background: var(--bg-muted); padding: 1.5rem; border-radius: var(--radius-md);">
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">STEP 1</span>
+                            <h4 style="color: var(--primary-900); font-weight: 700; margin: 0.25rem 0;">WAITING</h4>
+                            <p style="font-size: 0.85rem; color: var(--text-muted);">Relax in the waiting lounge.</p>
+                        </div>
+                        <div style="background: var(--status-called-bg); border: 1px solid var(--status-called-border); padding: 1.5rem; border-radius: var(--radius-md);">
+                            <span style="font-size: 0.8rem; color: var(--status-called-text);">STEP 2</span>
+                            <h4 style="color: var(--status-called-text); font-weight: 700; margin: 0.25rem 0;">CALLED</h4>
+                            <p style="font-size: 0.85rem; color: var(--status-called-text);">Proceed to the OPD room door.</p>
+                        </div>
+                        <div style="background: var(--status-in-consult-bg); border: 1px solid var(--status-in-consult-border); padding: 1.5rem; border-radius: var(--radius-md);">
+                            <span style="font-size: 0.8rem; color: var(--status-in-consult-text);">STEP 3</span>
+                            <h4 style="color: var(--status-in-consult-text); font-weight: 700; margin: 0.25rem 0;">IN CONSULTATION</h4>
+                            <p style="font-size: 0.85rem; color: var(--status-in-consult-text);">Examination in progress.</p>
+                        </div>
+                        <div style="background: var(--status-completed-bg); border: 1px solid var(--status-completed-border); padding: 1.5rem; border-radius: var(--radius-md);">
+                            <span style="font-size: 0.8rem; color: var(--status-completed-text);">STEP 4</span>
+                            <h4 style="color: var(--status-completed-text); font-weight: 700; margin: 0.25rem 0;">COMPLETED</h4>
+                            <p style="font-size: 0.85rem; color: var(--status-completed-text);">Collect prescription and exit.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/queue.js"></script>
+    <script src="/js/patient.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const session = checkSession('PATIENT');
+            if (!session) return;
+            populateUserDisplay(session);
+
+            const tracker = new QueueTracker({
+                pollIntervalMs: 5000,
+                onUpdate: (data) => renderTodayQueueBanner(data)
+            });
+
+            tracker.start(() => apiRequest(`/api/queue/patient/${session.patientId}`));
+        });
+    </script>
+</body>
+</html>
